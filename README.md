@@ -1,36 +1,34 @@
 # "Keskustelusovellus"
 Sovelluksessa on kaikki ominaisuudet mitä foorumilta tai keskustelupalstalta olettaa. Käyttäjät voivat aloittaa keskusteluketjuja ja lisätä viestejä niihin ylläpitäjien ylläpitämillä keskustelualueilla. Sovellus ei ainakaan vielä ole testattavissa fly.iossa.
 ### Käynnistysohjeet
-Toimii aika malliohjeiden mukaisesti. Lataa repositoria ja luo ensin juurikansioon seuraavanlainen **.env** 
-'''
-DATABASE_URL=<tietokannan-paikallinen-osoite>
-SECRET_KEY=<salainen-avain>
-'''
+Toimii aika malliohjeiden mukaisesti. Lataa repositorio ja luo ensin juurikansioon seuraavanlainen **.env** 
+
+
+    DATABASE_URL=<tietokannan-paikallinen-osoite>
+    SECRET_KEY=<salainen-avain>
+
+
 Sitten samalla tavalla virtuaaliympäristö ja riippuvuudet
-'''
-python3 -m venv venv
-'''
-'''
-source venv/bin/activate
-'''
-'''
-pip install -r ./reuirements.txt
-'''
+
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r ./reuirements.txt
+
+
 Samoin schema.sql. *HUOM!* schema.sql poistaa käyttämänsä nimisiä taulukoita jos niitä löytää, jos tietokannassa on tärkeitä taulukoita niin kannattaa tallentaa ne ensin tai jtn. **Varmista** myös että tietokanta on avattu, tuon komennon psql täytyy toimia normaalisti (Jos postgresql asennu oli scriptillä niin start-pg.sh käynnistää).
-'''
-psql < schema.sql
-'''
+
+    psql < schema.sql
+
 Sovelluksen voi nyt käynnistää
-'''
-flask run
-'''
+
+    flask run
+
 Schema.sql myös luo kaksi käyttäjää jo valmiiksi testaamista varten, "user" ja "admin", molemmilla salasanana "1234". **Jos** haluaa jostain syystä uusia ylläpitäjä käyttäjiä niin tässä vaiheessa helpointa on luoda käyttäjä selaimella ja sitten kirjoittaa suoraan tietokantaan:
-'''
-psql
-'''
-'''
-UPDATE users SET admins=TRUE WHERE names=<käyttäjän nimi>;
-'''
+
+    psql
+
+    UPDATE users SET admins=TRUE WHERE names=<käyttäjän nimi>;
+
 ### Sovelluksen ominaisuudet (Tällä hetkellä)
 - Käyttäjä näkee alkusivulla keskustelualueet 
 - Käyttäjä voi myös alkusivulla kirjautua sisään tai jatkaa ilman
