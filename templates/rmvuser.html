@@ -1,0 +1,16 @@
+<title>Generaali foorumi nro 428</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<b><a href="/personal">Takaisin</a></b>
+<h1>Käyttäjä: {{session.username}}</h1>
+<br>
+<h2>Vahvista käyttäjätiedot poistaaksesi käyttäjän</h2>
+<form action="/rmvuser/confirm" method="POST">
+    <label for="name">Käyttäjänimi:</label><br>
+    <input type="text" id="name" name="accname" value=""><br>
+    <label for="pass">Salasana:</label><br>
+    <input type="password" id="pass" name="passwrd" value=""><br><br>
+    <input type="submit" value="Kirjaudu">
+    <br>
+  </form>

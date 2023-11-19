@@ -1,0 +1,11 @@
+<title>Generaali foorumi nro 428</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<b><a href="/personal">Takaisin</a></b>
+<h1>Käyttäjä: {{session.username}}</h1>
+<h2>Ystäväpyynnöt:</h2>
+<br>
+{%for user in requested%}
+    <div style="border:color=black">{{user[0]}} <button>Hyväksy</button><button>Hylkää</button></div>
+{%endfor%}

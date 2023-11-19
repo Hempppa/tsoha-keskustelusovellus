@@ -1,0 +1,16 @@
+<title>Generaali foorumi nro 428</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<b><a href="/personal">Takaisin</a></b>
+<h1>Käyttäjä: {{session.username}}</h1>
+<h2>Kaverilista:</h2>
+{% if request %}
+  <script>alert({req_msg})</script>
+{% endif %}
+<p><a href="/friendlist/send">Lähetä ystäväpyyntö</a></p>
+<p><a href="/friendlist/received">Saapuneet ystäväpyynnot</a></p>
+<p><b>Kaverit:</b></p>
+{%for friend in friends%}
+    <br>{{friend[0]}}<br>
+{%endfor%}

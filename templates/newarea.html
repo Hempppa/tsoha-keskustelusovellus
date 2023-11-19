@@ -1,0 +1,15 @@
+<title>Generaali foorumi nro 428</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<h1>Uusi Keskustelualue</h1>
+<a href="/">Takaisin</a>
+{% if error %}
+  <h2 style="color:red">{{error_msg}}</h2>
+{% endif %}
+<form action="/newarea/confirm" method="POST">
+    <label for="name">Alueen nimi:</label><br>
+    <input type="text" id="name" name="title" value=""><br>
+    <input type="submit" value="Julkaise">
+    <br>
+  </form>

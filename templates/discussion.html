@@ -1,0 +1,49 @@
+<title>Generaali foorumi nro 428</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<span>/area{{ids[0]}}/discussion{{ids[1]}}</span>
+<br>
+<b><a href="/area/{{ids[0]}}">Takaisin</a></b>
+<h1>{{current_discussion.names}}:</h1>
+{% if session.username %}
+    <div>Terve {{session.username}}!</div>
+    <div><a href="/personal">Käyttäjä</a></div>
+    <p><a href="/logout">Kirjaudu ulos</a></p>
+{% else %}
+    <p><a href="/account">Kirjaudu</a></p>
+{% endif %}
+<h3>Hakutyökalu:</h3>palauttaa viestit jotka sisältää hakusanan
+<form action="/area/{{ids[0]}}/discussion/{{ids[1]}}/search" method="GET">
+    <input type="text" name="query">
+    <input type="submit" value="Hae">
+</form>
+<b><hr></b>
+<ul>
+{%for message in messages%}
+<section>
+<p style="border:2px solid gray;" width="100" margin="20px">
+<br>
+{{message[3]}}
+<br>-------------------------------------------------------<br>
+Kirjoittaja: {{message[1]}}
+{% if session.username == message.writer %}
+    <button onclick="document.location='/area/{{ids[0]}}/discussion/{{ids[1]}}/msg-delete{{message.id}}'">Poista viesti</button>
+{% endif %}
+<br>
+</p></section>
+{%endfor%}
+</ul>
+{% if session.username %}
+    <section id="message"><button onclick=newmessage()>Lisää viesti</button></section>
+{% endif %}
+<script>
+    function newmessage() {
+        document.getElementById("message").innerHTML = "<h4>Uusi viesti</h4><button onclick=goback()>Peru</button><form action='/area/{{ids[0]}}/discussion/{{ids[1]}}/newmessage' method='POST'><br><label for='body'>Viesti:</label><br><input type='text' id='body' name='bodyfield' value='' width='200px' height='200px'><br><br><input type='submit' value='Julkaise'><br></form>"
+    }
+</script>
+<script>
+    function goback() {
+        document.getElementById("message").innerHTML = "<button onclick=newmessage()>Lisää viesti</button>"
+    }
+</script>

@@ -1,0 +1,18 @@
+<title>Generaali foorumi nro 428</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<b><a href="/personal">Takaisin</a></b>
+<h1>Käyttäjä: {{session.username}}</h1>
+<h1>Aloittamat keskustelut:</h1>
+<br>
+{%for discussion in discussions%}
+<section>
+<p style="border:2px solid gray;" width="100" margin="20px">
+<br>
+<b>{{discussion.names}}</b><br>
+<br>
+<button onclick="document.location='/get-to/discussion/{{discussion.id}}'">Keskusteluun</button>
+<br>
+</p></section>
+{%endfor%}

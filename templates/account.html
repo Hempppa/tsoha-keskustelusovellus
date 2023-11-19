@@ -1,0 +1,18 @@
+<title>Generaali foorumi nro 428</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<h1>Kirjaudu</h1>
+<b><a href="/">Takaisin</a></b>
+{% if error %}
+  <h2 style="color:red">{{error_msg}}</h2>
+{% endif %}
+<form action="/login" method="POST">
+    <label for="name">Käyttäjänimi:</label><br>
+    <input type="text" id="name" name="accname" value=""><br>
+    <label for="pass">Salasana:</label><br>
+    <input type="password" id="pass" name="passwrd" value=""><br><br>
+    <input type="submit" value="Kirjaudu">
+    <br>
+    <a href="/newaccount">Tee uusi käyttäjä</a>
+  </form>
