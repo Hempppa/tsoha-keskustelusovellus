@@ -12,7 +12,7 @@ Sitten samalla tavalla virtuaaliympäristö ja riippuvuudet
 
     python3 -m venv venv
     source venv/bin/activate
-    pip install -r ./reuirements.txt
+    pip install -r ./requirements.txt
 
 
 Samoin schema.sql. *HUOM!* schema.sql poistaa käyttämänsä nimisiä taulukoita jos niitä löytää, jos tietokannassa on tärkeitä taulukoita niin kannattaa tallentaa ne ensin tai jtn. **Varmista** myös että tietokanta on avattu, tuon komennon psql täytyy toimia normaalisti (Jos postgresql asennu oli scriptillä niin start-pg.sh käynnistää).
