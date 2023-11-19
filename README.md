@@ -1,4 +1,4 @@
-# "Keskustelusovellus"
+# Keskustelusovellus
 Sovelluksessa on kaikki ominaisuudet mitä foorumilta tai keskustelupalstalta olettaa. Käyttäjät voivat aloittaa keskusteluketjuja ja lisätä viestejä niihin ylläpitäjien ylläpitämillä keskustelualueilla. Sovellus ei ainakaan vielä ole testattavissa fly.iossa.
 ### Käynnistysohjeet
 Toimii aika malliohjeiden mukaisesti. Lataa repositorio ja luo ensin juurikansioon seuraavanlainen **.env** 
