@@ -40,7 +40,7 @@ Kirjoittaja: {{message[1]}}
 {% endif %}
 <script>
     function newmessage() {
-        document.getElementById("message").innerHTML = "<h4>Uusi viesti</h4><button onclick=goback()>Peru</button><form action='/area/{{ids[0]}}/discussion/{{ids[1]}}/newmessage' method='POST'><br><label for='body'>Viesti:</label><br><input type='text' id='body' name='bodyfield' value='' width='200px' height='200px'><br><br><input type='submit' value='Julkaise'><br></form><input type='hidden' name='csrf_token' value='{{session.csrf_token}}'>"
+        document.getElementById("message").innerHTML = "<h4>Uusi viesti</h4><button onclick=goback()>Peru</button><form action='/area/{{ids[0]}}/discussion/{{ids[1]}}/newmessage' method='POST'><br><label for='body'>Viesti:</label><br><input type='text' id='body' name='bodyfield' value='' width='200px' height='200px'><br><br><input type='submit' value='Julkaise'><br><input type='hidden' name='csrf_token' value='{{session.csrf_token}}'></form>"
     }
 </script>
 <script>
