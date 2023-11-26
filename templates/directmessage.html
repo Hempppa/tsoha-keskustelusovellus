@@ -1,16 +1,15 @@
 {% extends "publiclayout.html" %}
 
 {% block title %}
-<span>/area{{ids[0]}}/discussion{{ids[1]}}</span>
-<b><a href="/area/{{ids[0]}}">Takaisin</a></b>
-<h1>{{current_discussion.names}}:</h1>
+<h1>{{friend}}:</h1>
 {% endblock %}
 
 {% block search %}
 <h3>Hakutyökalu:</h3>palauttaa viestit jotka sisältää hakusanan
-<form action="/area/{{ids[0]}}/discussion/{{ids[1]}}/search" method="GET">
+<form action="/friendlist/dm/search" method="GET">
     <input type="text" name="query">
     <input type="submit" value="Hae">
+    <input type="hidden" value="{{friend}}" name="friend1">
 </form>
 {% endblock %}
 
@@ -26,7 +25,7 @@
 <br>-------------------------------------------------------<br>
 Kirjoittaja: {{message[1]}}
 {% if session.username == message.writer %}
-    <form action="/area/{{ids[0]}}/discussion/{{ids[1]}}/msg-delete{{message.id}}" method="POST">
+    <form action="/friendlist/dm/msg-delete{{message.id}}" method="POST">
         <input type="submit" value="Poista viesti">
         <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
     </form>
@@ -40,7 +39,7 @@ Kirjoittaja: {{message[1]}}
 {% endif %}
 <script>
     function newmessage() {
-        document.getElementById("message").innerHTML = "<h4>Uusi viesti</h4><button onclick=goback()>Peru</button><form action='/area/{{ids[0]}}/discussion/{{ids[1]}}/newmessage' method='POST'><br><label for='body'>Viesti:</label><br><input type='text' id='body' name='bodyfield' value='' width='200px' height='200px'><br><br><input type='submit' value='Julkaise'><br></form><input type='hidden' name='csrf_token' value='{{session.csrf_token}}'>"
+        document.getElementById("message").innerHTML = "<h4>Uusi viesti</h4><button onclick=goback()>Peru</button><form action='/friendlist/dm/newmessage' method='POST'><br><label for='body'>Viesti:</label><br><input type='text' id='body' name='bodyfield' value='' width='200px' height='200px'><br><br><input type='submit' value='Julkaise'><br><input type='hidden' name='csrf_token' value='{{session.csrf_token}}'><input type='hidden' name='friend2' value='{{friend}}'></form>"
     }
 </script>
 <script>

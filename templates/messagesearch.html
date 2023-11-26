@@ -1,18 +1,14 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<br>
+{% extends "publiclayout.html" %}
+
+{% block title %}
 <b><a href="/area/{{ids[0]}}/discussion/{{ids[1]}}">Takaisin</a></b>
 <h1>Viestit haulla "{{query}}":</h1>
-{% if session.username %}
-    <div>Terve {{session.username}}!</div>
-    <div><a href="/personal">Käyttäjä</a></div>
-    <p><a href="/logout">Kirjaudu ulos</a></p>
-{% else %}
-    <p><a href="/account">Kirjaudu</a></p>
-{% endif %}
-<b><hr></b>
+{% endblock %}
+
+{% block search %}{% endblock %}
+{% block new %}{% endblock %}
+
+{% block content %}
 <ul>
 {%for message in messages%}
     <section>
@@ -22,8 +18,12 @@
     <br>-------------------------------------------------------<br>
     {{message.writer}}
     {% if session.username == message.writer %}
-        <button onclick="document.location='/area/{{ids[0]}}/discussion/{{ids[1]}}/msg-delete{{message.id}}'">Poista viesti</button>
+        <form action="/area/{{ids[0]}}/discussion/{{ids[1]}}/msg-delete{{message.id}}" method="POST">
+            <input type="submit" value="Poista viesti">
+            <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+        </form>
     {% endif %}
 {% endfor %}
 <br>
 </p></section>
+{% endblock %}

@@ -1,13 +1,17 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<b><a href="/personal">Takaisin</a></b>
+{% extends "publiclayout.html" %}
+
+{% block title %}
 <h1>Käyttäjä: {{session.username}}</h1>
 <br>
 {% if error %}
   <h2 style="color:red">{{error_msg}}</h2>
 {% endif %}
+{% endblock %}
+
+{% block search %}{% endblock %}
+{% block new %}{% endblock %}
+
+{% block content %}
 <h2>Syötä salasanat</h2><br><br>
 <form action="/changepass/confirm" method="POST">
     <label for="oldpass">Vanha salasana:</label><br>
@@ -16,4 +20,6 @@
     <input type="password" id="newpass" name="newpasswrd" value=""><br><br>
     <input type="submit" value="Vaihda">
     <br>
-  </form>
+    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+</form>
+{% endblock %}

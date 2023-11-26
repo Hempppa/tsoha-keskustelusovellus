@@ -1,10 +1,13 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<b><a href="/personal">Takaisin</a></b>
+{% extends "publiclayout.html" %}
+
+{% block title %}
 <h1>Käyttäjä: {{session.username}}</h1>
-<br>
+{% endblock %}
+
+{% block search %}{% endblock %}
+{% block new %}{% endblock %}
+
+{% block content %}
 <h2>Vahvista käyttäjätiedot poistaaksesi käyttäjän</h2>
 <form action="/rmvuser/confirm" method="POST">
     <label for="name">Käyttäjänimi:</label><br>
@@ -13,4 +16,6 @@
     <input type="password" id="pass" name="passwrd" value=""><br><br>
     <input type="submit" value="Kirjaudu">
     <br>
-  </form>
+    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+</form>
+{% endblock %}

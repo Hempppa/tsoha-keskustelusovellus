@@ -1,11 +1,14 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<b><a href="/personal">Takaisin</a></b>
+{% extends "publiclayout.html" %}
+
+{% block title %}
 <h1>Käyttäjä: {{session.username}}</h1>
 <h1>Aloittamat keskustelut:</h1>
-<br>
+{% endblock %}
+
+{% block search %}{% endblock %}
+{% block new %}{% endblock %}
+
+{% block content %}
 {%for discussion in discussions%}
 <section>
 <p style="border:2px solid gray;" width="100" margin="20px">
@@ -16,3 +19,4 @@
 <br>
 </p></section>
 {%endfor%}
+{% endblock %}

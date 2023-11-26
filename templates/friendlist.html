@@ -1,16 +1,27 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<b><a href="/personal">Takaisin</a></b>
+{% extends "publiclayout.html" %}
+
+{% block title %}
 <h1>Käyttäjä: {{session.username}}</h1>
 <h2>Kaverilista:</h2>
 {% if request %}
   <script>alert({req_msg})</script>
 {% endif %}
+{% endblock %}
+
+{% block search %}{% endblock %}
+{% block new %}{% endblock %}
+
+{% block content %}
 <p><a href="/friendlist/send">Lähetä ystäväpyyntö</a></p>
 <p><a href="/friendlist/received">Saapuneet ystäväpyynnot</a></p>
 <p><b>Kaverit:</b></p>
 {%for friend in friends%}
-    <br>{{friend[0]}}<br>
+    <form action="/friendlist/dm" method="POST">
+      <br>
+      {{friend[0]}} <input type="submit" value="Viestit">
+      <input type="hidden" name="username" value="{{friend[0]}}">
+      <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+      <br>
+    </form>
 {%endfor%}
+{% endblock %}

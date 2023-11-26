@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>Generaali foorumi nro 428</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+{% Block title %}{% endblock %}
+
+{% if session.username %}
+    <div>Terve {{session.username}}!</div>
+    <div><a href="/personal">Käyttäjä</a></div>
+    <p><a href="/logout">Kirjaudu ulos</a></p>
+{% else %}
+    <p><a href="/account">Kirjaudu</a></p>
+{% endif %}
+
+<hr>
+
+{% Block search %}{% endblock %}
+
+<hr>
+
+{% block new %}{% endblock %}
+
+{% block content %}{% endblock %}

@@ -1,24 +1,24 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<h1>Keskustelualueet:</h1> 
-{% if session.username %}
-    <div>Terve {{session.username}}!</div>
-    <div><a href="/personal">Käyttäjä</a></div>
-    <p><a href="/logout">Kirjaudu ulos</a></p>
-{% else %}
-    <p><a href="/account">Kirjaudu</a></p>
-{% endif %}
+{% extends "publiclayout.html" %}
+
+{% block title %}
+<h1>Keskustelualueet:</h1>
+{% endblock %} 
+
+{% block search %}
 <h3>Hakutyökalu:</h3><span>palauttaa keskustelut jotka sisältää hakusanan</span>
 <form action="/search" method="GET">
     <input type="text" name="query">
     <input type="submit" value="Hae">
 </form>
-<b><hr></b>
+{% endblock %}
+
+{% block new %}
 {% if is_admin %}
     <a href="/newarea">Avaa uusi keskustelualue</a>
 {% endif %}
+{% endblock %}
+
+{% block content %}
 <ul>
 {%for area in areas%}
 <section>
@@ -32,3 +32,4 @@
 </section>
 {%endfor%}
 </ul>
+{% endblock %}

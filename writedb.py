@@ -32,7 +32,14 @@ def make_admin(user):
     db.session.execute(text("UPDATE users SET admins=TRUE WHERE names=:name"), {"name":user})
 
 def add_friend(user1, user2):
-    db.session.execute(text("INSERT INTO friendlist (user1, user2, deleted) VALUES (:user1, :user2, FALSE)"), {"user1":user1, "user2":user2})
+    try:
+        db.session.execute(text("INSERT INTO friendlist (user1, user2, deleted) VALUES (:user1, :user2, FALSE)"), {"user1":user1, "user2":user2})
+    except:
+        db.session.execute(text("UPDATE friendlist SET deleted=FALSE WHERE user1=:user1 AND user2=:user2"), {"user1":user1, "user2":user2})
+    db.session.commit()
+
+def remove_friend(user1, user2):
+    db.session.execute(text("UPDATE friendlist SET deleted=TRUE WHERE user1=:name1 AND user2=:name2"), {"name1":user1, "name2":user2})
     db.session.commit()
 
 def add_direct_message(user1, user2, message):

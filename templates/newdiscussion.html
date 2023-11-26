@@ -1,12 +1,17 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+{% extends "publiclayout.html" %}
+
+{% block title %}
 <h1>Uusi Keskustelu</h1>
 <a href="/area/{{area}}">Takaisin</a>
 {% if error %}
   <h2 style="color:red">{{error_msg}}</h2>
 {% endif %}
+{% endblock %}
+
+{% block search %}{% endblock %}
+{% block new %}{% endblock %}
+
+{% block content %}
 <form action="/area/{{area}}/creatediscussion" method="POST">
     <label for="name">Otsikko:</label><br>
     <input type="text" id="name" name="title" value=""><br>
@@ -14,4 +19,6 @@
     <input type="text" id="body" name="body" value="" width="200px" height="200px"><br><br>
     <input type="submit" value="Julkaise">
     <br>
-  </form>
+    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+</form>
+{% endblock %}

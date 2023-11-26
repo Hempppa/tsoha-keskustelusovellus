@@ -1,11 +1,16 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+{% extends "publiclayout.html" %}
+
+{% block title %}
 <h1>Uusi Käyttäjä</h1>
 {% if error %}
   <h2 style="color:red">{{error_msg}}</h2>
 {% endif %}
+{% endblock %}
+
+{% block search %}{% endblock %}
+{% block new %}{% endblock %}
+
+{% block content %}
 <form action="/create" method="POST">
     <label for="name">Käyttäjänimi:</label><br>
     <input type="text" id="name" name="accname" value=""><br>
@@ -14,4 +19,6 @@
     <input type="submit" value="Tee käyttäjä">
     <br>
     <a href="/account">Takaisin</a>
-  </form>
+    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+</form>
+{% endblock %}

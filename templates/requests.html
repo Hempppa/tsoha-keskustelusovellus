@@ -1,11 +1,22 @@
-<title>Generaali foorumi nro 428</title>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<b><a href="/personal">Takaisin</a></b>
+{% extends "publiclayout.html" %}
+
+{% block title %}
 <h1>Käyttäjä: {{session.username}}</h1>
 <h2>Ystäväpyynnöt:</h2>
-<br>
+{% endblock %}
+
+{% block search %}{% endblock %}
+{% block new %}{% endblock %}
+
+{% block content %}
 {%for user in requested%}
-    <div style="border:color=black">{{user[0]}} <button>Hyväksy</button><button>Hylkää</button></div>
+    <form method="POST">
+        <div style="border:color=black">{{user[0]}} 
+            <input type="submit" onclick="/friendlist/accept" value="Hyväksy">
+            <input type="submit" onclick="/friendlist/reject" value="Hylkää">
+        </div>
+        <input type="hidden" name="username" value="{{user[0]}}">
+        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+    </form>
 {%endfor%}
+{% endblock %}
