@@ -16,12 +16,17 @@
 <p><a href="/friendlist/received">Saapuneet ystäväpyynnot</a></p>
 <p><b>Kaverit:</b></p>
 {%for friend in friends%}
-    <form action="/friendlist/dm" method="POST">
-      <br>
-      {{friend[0]}} <input type="submit" value="Viestit">
-      <input type="hidden" name="username" value="{{friend[0]}}">
-      <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-      <br>
-    </form>
+<br>
+{{friend[0]}} 
+<form action="/friendlist/dm" method="POST">
+<input type="submit" value="Viestit">
+<input type="hidden" name="username" value="{{friend[0]}}">
+</form>
+<form action="/friendlist/reject" method="POST">
+<input type="submit" value="Poista kavereista">
+<input type="hidden" name="username" value="{{friend[0]}}">
+<input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+</form>
+<br>
 {%endfor%}
 {% endblock %}

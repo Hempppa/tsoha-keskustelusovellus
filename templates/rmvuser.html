@@ -2,6 +2,9 @@
 
 {% block title %}
 <h1>Käyttäjä: {{session.username}}</h1>
+{% if error %}
+  <h2 style="color:red">{{error_msg}}</h2>
+{% endif %}
 {% endblock %}
 
 {% block search %}{% endblock %}

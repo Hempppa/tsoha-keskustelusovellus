@@ -13,33 +13,16 @@
 </form>
 {% endblock %}
 
-{% block new %}{% endblock %}
-
-{% block content %}
-<ul>
-{%for message in messages%}
-<section>
-<p style="border:2px solid gray;" width="100" margin="20px">
-<br>
-{{message[3]}}
-<br>-------------------------------------------------------<br>
-Kirjoittaja: {{message[1]}}
-{% if session.username == message.writer %}
-    <form action="/friendlist/dm/msg-delete{{message.id}}" method="POST">
-        <input type="submit" value="Poista viesti">
-        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-    </form>
+{% block new %}
+{% if error %}
+  <h2 style="color:red">{{error_msg}}</h2>
 {% endif %}
-<br>
-</p></section>
-{%endfor%}
-</ul>
 {% if session.username %}
     <section id="message"><button onclick=newmessage()>Lisää viesti</button></section>
 {% endif %}
 <script>
     function newmessage() {
-        document.getElementById("message").innerHTML = "<h4>Uusi viesti</h4><button onclick=goback()>Peru</button><form action='/friendlist/dm/newmessage' method='POST'><br><label for='body'>Viesti:</label><br><input type='text' id='body' name='bodyfield' value='' width='200px' height='200px'><br><br><input type='submit' value='Julkaise'><br><input type='hidden' name='csrf_token' value='{{session.csrf_token}}'><input type='hidden' name='friend2' value='{{friend}}'></form>"
+        document.getElementById("message").innerHTML = "<h4>Uusi viesti</h4><button onclick=goback()>Peru</button><form action='/friendlist/dm/newmessage' method='POST'><br><label for='body'>Viesti:</label><br><input type='text' id='body' name='bodyfield' value='' width='200px' height='200px'><br><br><input type='submit' value='Julkaise'><br><input type='hidden' name='csrf_token' value='{{session.csrf_token}}'><input type='hidden' name='username' value='{{friend}}'></form>"
     }
 </script>
 <script>
@@ -47,4 +30,37 @@ Kirjoittaja: {{message[1]}}
         document.getElementById("message").innerHTML = "<button onclick=newmessage()>Lisää viesti</button>"
     }
 </script>
+{% endblock %}
+
+{% block content %}
+<ul>
+{%for message in messages%}
+    {% if session.username == message[1] %}
+        <div style="border:2px solid gray;">
+            <p style="margin-left: 25px;">
+            {{message[3]}}
+            </p>
+            <hr>
+            Kirjoittaja: {{message[1]}}
+            <form action="/friendlist/dm/msg-delete{{message[0]}}" method="POST">
+                <input type="submit" value="Poista viesti">
+                <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+                <input type='hidden' name='username' value='{{friend}}'>
+            </form>
+            <br>
+        </div>
+        <br>
+    {% else %}
+        <div style="border:2px solid gray;">
+            <p style="margin-left: 25px;">
+            {{message[3]}}
+            </p>
+            <hr>
+            Kirjoittaja: {{message[1]}}
+            <br>
+        </div>
+        <br>
+    {% endif %}
+{%endfor%}
+</ul>
 {% endblock %}

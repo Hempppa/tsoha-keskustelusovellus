@@ -43,8 +43,8 @@ CREATE TABLE directmessages (
     id SERIAL PRIMARY KEY,
     user1 TEXT,
     user2 TEXT,
-    UNIQUE(user1,user2),
-    messages TEXT,
+    content TEXT,
+    created_at TIMESTAMP,
     deleted BOOLEAN
 );
 INSERT INTO areas (names, deleted) VALUES ('Yleinen chatti', FALSE);

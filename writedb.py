@@ -30,20 +30,26 @@ def change_user_pass(user, password):
 
 def make_admin(user):
     db.session.execute(text("UPDATE users SET admins=TRUE WHERE names=:name"), {"name":user})
+    db.session.commit()
 
 def add_friend(user1, user2):
-    try:
+    result = db.session.execute(text("SELECT * FROM friendlist WHERE user1=:user1 AND user2=:user2"), {"user1":user1, "user2":user2})
+    if result.fetchone() == None:
         db.session.execute(text("INSERT INTO friendlist (user1, user2, deleted) VALUES (:user1, :user2, FALSE)"), {"user1":user1, "user2":user2})
-    except:
+    else:
         db.session.execute(text("UPDATE friendlist SET deleted=FALSE WHERE user1=:user1 AND user2=:user2"), {"user1":user1, "user2":user2})
     db.session.commit()
 
 def remove_friend(user1, user2):
-    db.session.execute(text("UPDATE friendlist SET deleted=TRUE WHERE user1=:name1 AND user2=:name2"), {"name1":user1, "name2":user2})
+    db.session.execute(text("UPDATE friendlist SET deleted=TRUE WHERE (user1=:name1 AND user2=:name2) OR (user1=:name2 AND user2=:name1)"), {"name1":user1, "name2":user2})
     db.session.commit()
 
-def add_direct_message(user1, user2, message):
-    db.session.execute(text("INSERT INTO friendlist (user1, user2, messages, deleted) VALUES (:user1, :user2, :message, FALSE)"), {"user1":user1, "user2":user2, "message":message})
+def add_directmessage(user1, user2, message):
+    db.session.execute(text("INSERT INTO directmessages (user1, user2, content, created_at, deleted) VALUES (:user1, :user2, :message, NOW(), FALSE)"), {"user1":user1, "user2":user2, "message":message})
+    db.session.commit()
+
+def delete_area(id):
+    db.session.execute(text("UPDATE areas SET deleted=TRUE WHERE id=:id"), {"id":id})
     db.session.commit()
 
 def delete_user(user):
@@ -53,4 +59,16 @@ def delete_user(user):
 
 def delete_message(id):
     db.session.execute(text("UPDATE messages SET deleted=TRUE WHERE id=:id"), {"id":id})
+    db.session.commit()
+
+def delete_directmessage(id):
+    db.session.execute(text("UPDATE directmessages SET deleted=TRUE WHERE id=:id"), {"id":id})
+    db.session.commit()
+
+def add_admin(name):
+    db.session.execute(text("UPDATE users SET admins=TRUE WHERE names=:name"), {"name":name})
+    db.session.commit()
+
+def remove_admin(name):
+    db.session.execute(text("UPDATE users SET admins=FALSE WHERE names=:name"), {"name":name})
     db.session.commit()

@@ -10,13 +10,17 @@
 
 {% block content %}
 {%for user in requested%}
-    <form method="POST">
-        <div style="border:color=black">{{user[0]}} 
-            <input type="submit" onclick="/friendlist/accept" value="Hyväksy">
-            <input type="submit" onclick="/friendlist/reject" value="Hylkää">
-        </div>
+    <div style="border:color=black">{{user[0]}}
+    <form action="/friendlist/accept" method="POST"> 
+        <input type="submit" value="Hyväksy">
         <input type="hidden" name="username" value="{{user[0]}}">
         <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
     </form>
+    <form action="/friendlist/reject" method="POST">
+        <input type="submit" value="Hylkää">
+        <input type="hidden" name="username" value="{{user[0]}}">
+        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+    </form>
+    </div>
 {%endfor%}
 {% endblock %}

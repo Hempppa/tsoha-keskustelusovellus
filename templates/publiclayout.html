@@ -4,7 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-{% Block title %}{% endblock %}
+<a href="/">Kotisivulle</a><br>
+
+{% block title %}{% endblock %}
 
 {% if session.username %}
     <div>Terve {{session.username}}!</div>
@@ -14,9 +16,7 @@
     <p><a href="/account">Kirjaudu</a></p>
 {% endif %}
 
-<hr>
-
-{% Block search %}{% endblock %}
+{% block search %}{% endblock %}
 
 <hr>
 

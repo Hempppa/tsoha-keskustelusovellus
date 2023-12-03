@@ -6,14 +6,14 @@ Toimii aika malliohjeiden mukaisesti. Lataa repositorio ja luo ensin juurikansio
 
     DATABASE_URL=<tietokannan-paikallinen-osoite>
     SECRET_KEY=<salainen-avain>
+    OWNER=<käyttäjänimi>
 
 
-Sitten samalla tavalla virtuaaliympäristö ja riippuvuudet
+OWNER on siis ainoa käyttäjä joka kykenee adminien lisäämiseen ja poistamiseen, jos näitä ei halua testata niin ei ole pakko määrittää. Sitten alustetaan samalla tavalla virtuaaliympäristö ja riippuvuudet
 
     python3 -m venv venv
     source venv/bin/activate
     pip install -r ./requirements.txt
-
 
 Samoin schema.sql. *HUOM!* schema.sql poistaa käyttämänsä nimisiä taulukoita jos niitä löytää, jos tietokannassa on tärkeitä taulukoita niin kannattaa tallentaa ne ensin tai jtn. **Varmista** myös että tietokanta on avattu, tuon komennon psql täytyy toimia normaalisti (Jos postgresql asennu oli scriptillä niin start-pg.sh käynnistää).
 
@@ -23,11 +23,7 @@ Sovelluksen voi nyt käynnistää
 
     flask run
 
-Schema.sql myös luo kaksi käyttäjää jo valmiiksi testaamista varten, "user" ja "admin", molemmilla salasanana "1234". **Jos** haluaa jostain syystä uusia ylläpitäjä käyttäjiä niin tässä vaiheessa helpointa on luoda käyttäjä selaimella ja sitten kirjoittaa suoraan tietokantaan:
-
-    psql
-
-    UPDATE users SET admins=TRUE WHERE names=<käyttäjän nimi>;
+Schema.sql myös luo kaksi käyttäjää jo valmiiksi testaamista varten, "user" ja "admin", molemmilla salasanana "1234".
 
 ### Sovelluksen ominaisuudet (Tällä hetkellä)
 - Käyttäjä näkee alkusivulla keskustelualueet 
@@ -37,23 +33,21 @@ Schema.sql myös luo kaksi käyttäjää jo valmiiksi testaamista varten, "user"
 - Käyttäjä voi myös lisätä viestinsä jo valmiiksi olemassa olevan ketjun jatkeeksi
 - Käyttäjä voi poistaa lähettämiään viestejä
 - Käyttäjä voi etsiä ketjuja ja viestejä niiden sisältämän tekstin pohjalta
-- Ylläpitäjä voi lisätä keskustelualueita
+- Käyttäjä voi vaihtaa salasanaa ja poistaa käyttäjätilin
+- Käyttäjä voi lisätä muista kavereiksi ja sitten lähettää suoraan viestejä
+    - Direct messaged siis näkyvät vain kahdelle käyttäjälle jotka on lisännyt toisensa kaveriksi
+- Ylläpitäjä voi lisätä keskustelualueita ja poistaa alueita, ketjuja ja viestejä
+- Omistaja voi määrätä käyttäjien adminoikeuksia.
 ### Suuret puuttuvuudet
-- Keskusteluja ja keskustelualueita ei voi sulkea/poistaa
-- Poistettuja viestejä ei voi palauttaa
-- Kaverikutsuja ei voi hyväksyä tai hylätä, paitsi lähettämällä sellaisen takaisin
 - Ulkoasu, sivu näyttää aika huonolta vielä
-- Helpompi tapa lisätä ylläpitäjä käyttäjiä, tällä hetkellä vain suoraan syöttämällä tietokantaan
-- Varmaan kuuluisi järjestää uusimman mukaan kaikki
-- Tietoturva
-    - Sovellus ei vielä tarkista käyttäjän oikeuksia tietyille sivulle, tosin esim. käyttäjäntiedot (periaatteessa vain nimi) eivät näy muille.
-    - Myöskin CSRF turvaa ei vielä ole
-- Koodin siisteys
-    - En kerennyt ottaa pylintiä käyttöön, pääosin koodi on ihan ok, mutta parempikin saisi olla
-    - Kommentointi on aika vähäistä, 
-### Mahdollisia lisäyksiä puuttuvuuksien päälle
-- Käyttäjien estäminen, jolloin ainakaan kaverikutsut ja dm eivät näy, ehkä pätee kaikkiin viesteihin
-    - Mahdollisuus käyttäjän laittamiseen jäähylle (tai kokonaan viestinnän estäminen) ylläpitäjille
+- directmessage haku ei toimi jostain syystä
+- Kattavampi testaus, kaiken **pitäisi** toimia, mutta silti
+### Mahdollisia lisäyksiä (ei todennäköisesti enään projektin aikana kerkeä)
+- Monia mukavuuksia, mm.
+    - viestien muokkaaminen, uuden kirkoittamisen sijaan
+    - kaverikutsujen rajoittaminen, spammin välttämiseen
+    - samasta syystä käyttäjän estäminen sovelluksesta
+    - salasanan laaduntarkastus, hetkellä esim. yksi kirjain kelpaa
 - Rajoitetut alueet/ketjut, joihin vain määrätyt käyttäjät pääsevät 
     - Voi vielä erotella suljetut ja peitetyt, missä siis suljettuihin ei pääse ilman kutsua ja peitettyjä ei edes näe ilman
     - Näihin täytyy sitten oletettavasti pystyä lisäämään ja poistamaan jäseniä
