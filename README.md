@@ -40,7 +40,6 @@ Schema.sql myös luo kaksi käyttäjää jo valmiiksi testaamista varten, "user"
 - Omistaja voi määrätä käyttäjien adminoikeuksia.
 ### Suuret puuttuvuudet
 - Ulkoasu, sivu näyttää aika huonolta vielä
-- directmessage haku ei toimi jostain syystä
 - Kattavampi testaus, kaiken **pitäisi** toimia, mutta silti
 ### Mahdollisia lisäyksiä (ei todennäköisesti enään projektin aikana kerkeä)
 - Monia mukavuuksia, mm.
