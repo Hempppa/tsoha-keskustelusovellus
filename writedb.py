@@ -57,6 +57,10 @@ def delete_user(user):
     db.session.execute(text("UPDATE friendlist SET deleted=TRUE WHERE user1=:name OR user2=:name"), {"name":user})
     db.session.commit()
 
+def delete_discussion(id):
+    db.session.execute(text("UPDATE discussions SET deleted=TRUE WHERE id=:id"), {"id":id})
+    db.session.commit()
+
 def delete_message(id):
     db.session.execute(text("UPDATE messages SET deleted=TRUE WHERE id=:id"), {"id":id})
     db.session.commit()

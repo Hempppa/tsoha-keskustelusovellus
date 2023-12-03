@@ -1,8 +1,8 @@
+import secrets
 from flask import redirect, render_template, request, session, abort
 import readdb
 import writedb
 from app import app, owner
-import secrets
 
 
 #Käyttäjän luonti ja kirjautuminen
@@ -25,7 +25,7 @@ def create():
         return new_account(True, "Nimi tai salasanakenttä tyhjä")
     #Tähän sitten salasanan laatutarkastus
     #elif (len(password) < 8) or (name in password):
-        #return "<script>alert('Kelvoton salasana')</script><script>document.location='/newaccount'</script>"
+    #
     if writedb.add_user(name, password):
         session["username"] = name
         session["csrf_token"] = secrets.token_hex(16)
@@ -35,7 +35,7 @@ def create():
 @app.route("/login", methods=["POST"])
 def login():
     name = request.form["accname"]
-    password = request.form["passwrd"]    
+    password = request.form["passwrd"]
     if readdb.confirm_user_pass(name, password):
         session["username"] = name
         session["csrf_token"] = secrets.token_hex(16)
@@ -61,11 +61,10 @@ def change_pass(error=False, error_msg=""):
 def change_confirm():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
-    if readdb.confirm_user_pass(session["username"], request.form["oldpasswrd"]) and not (request.form["newpasswrd"] == None or request.form["newpasswrd"] == ""):
+    if readdb.confirm_user_pass(session["username"], request.form["oldpasswrd"]) and not request.form["newpasswrd"]:
         writedb.change_user_pass(session["username"], request.form["newpasswrd"])
         return redirect("/personal")
-    else:
-        return change_pass(True, "väärä salasana")
+    return change_pass(True, "väärä salasana")
 
 @app.route("/rmvuser")
 def rmv_user(error=False, error_msg=""):
@@ -75,12 +74,12 @@ def rmv_user(error=False, error_msg=""):
 def rmv_confirm():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
-    if readdb.confirm_user_pass(request.form["accname"], request.form["passwrd"]) and session["username"] == request.form["accname"]:
-        writedb.delete_user(session["username"])
-        del session["username"]
-        return redirect("/")
-    else:
-        return rmv_user(error=True, error_msg="Käyttäjänimi tai salasana väärin")
+    if readdb.confirm_user_pass(request.form["accname"], request.form["passwrd"]):
+        if session["username"] == request.form["accname"]:
+            writedb.delete_user(session["username"])
+            del session["username"]
+            return redirect("/")
+    return rmv_user(error=True, error_msg="Käyttäjänimi tai salasana väärin")
 
 
 #Käyttäjäkohtaiset
@@ -120,13 +119,13 @@ def confirm_add_admin():
 
 
 @app.route("/friendlist")
-def friends(request=False, req_msg=""):
+def friends(req=False, req_msg=""):
     friendlist = readdb.get_friends_by_user(session["username"])
-    return render_template("friendlist.html", friends=friendlist, request=request, req_msg=req_msg)
+    return render_template("friendlist.html", friends=friendlist, request=req, req_msg=req_msg)
 
 @app.route("/friendlist/send")
-def friend_send(request=False, req_msg=""):
-    return render_template("friendsend.html", request=request, req_msg=req_msg)
+def friend_send(req=False, req_msg=""):
+    return render_template("friendsend.html", request=req, req_msg=req_msg)
 
 @app.route("/friendlist/send/confirm", methods=["POST"])
 def send_friend():
@@ -167,15 +166,14 @@ def directmessage():
     messages = readdb.get_directmessages(session["username"], request.form["username"])
     return render_template("directmessage.html", messages=messages, friend=request.form["username"])
 
-@app.route("/friendlist/dm/msg-delete<int:id>", methods=["POST"])
-def dm_msg_delete(id):
+@app.route("/friendlist/dm/msg-delete<int:iden>", methods=["POST"])
+def dm_msg_delete(id1):
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
-    if readdb.get_directmessage_by_id(id).user1 == session["username"]:
-        writedb.delete_directmessage(id)
+    if readdb.get_directmessage_by_id(id1).user1 == session["username"]:
+        writedb.delete_directmessage(id1)
         return redirect("/friendlist/dm", code=307)
-    else:
-        abort(403)
+    abort(403)
 
 @app.route("/friendlist/dm/newmessage", methods=["POST"])
 def new_directmessage():
@@ -198,10 +196,10 @@ def search():
     return render_template("search.html", query=request.args["query"], discussions=discussions, id1=None)
 
 @app.route("/area/<int:id>/search")
-def area_search(id):
-    discussions = readdb.get_discussion_by_search(request.args["query"], id)
+def area_search(id1):
+    discussions = readdb.get_discussion_by_search(request.args["query"], id1)
     print(discussions)
-    return render_template("search.html", query=request.args["query"], discussions=discussions, id1=id)
+    return render_template("search.html", query=request.args["query"], discussions=discussions, id1=id1)
 
 @app.route("/area/<int:id1>/discussion/<int:id2>/search")
 def discussion_search(id1, id2):
@@ -209,10 +207,10 @@ def discussion_search(id1, id2):
     return render_template("messagesearch.html", query=request.args["query"], messages=messages, ids=[id1, id2])
 
 @app.route("/get-to/discussion/<int:id>")
-def get_to_discussion(id):
-    discussion = readdb.get_discussion_by_id(id)
-    area = readdb.get_area_by_name(discussion.area)
-    return redirect("/area/"+str(area.id)+"/discussion/"+str(id))
+def get_to_discussion(id1):
+    disc = readdb.get_discussion_by_id(id1)
+    areaa = readdb.get_area_by_name(disc.area)
+    return redirect("/area/"+str(areaa.id)+"/discussion/"+str(id1))
 
 @app.route("/friendlist/dm/search")
 def dm_search():
@@ -235,16 +233,16 @@ def index():
     return render_template("index.html", areas=areas, is_admin=is_admin)
 
 @app.route("/area/<int:id>")
-def area(id):
+def area(id1):
     try:
         if session["username"]:
             is_admin = readdb.is_admin(session["username"])
     except:
         is_admin = False
-    area = readdb.get_area_by_id(id)
-    discussions = readdb.get_discussions_by_area(area.names)
-    discussions.reverse()
-    return render_template("area.html", area=area, area_discussions=discussions, is_admin=is_admin, ids=[id])
+    areaa = readdb.get_area_by_id(id1)
+    disc = readdb.get_discussions_by_area(areaa.names)
+    disc.reverse()
+    return render_template("area.html", area=areaa, area_discussions=disc, is_admin=is_admin, ids=[id1])
 
 @app.route("/area/<int:id1>/discussion/<int:id2>")
 def discussion(id1, id2, error=False, error_msg=""):
@@ -255,7 +253,8 @@ def discussion(id1, id2, error=False, error_msg=""):
         is_admin = False
     discussion = readdb.get_discussion_by_id(id2)
     messages = readdb.get_messages_from_discussion(discussion.names)
-    return render_template("discussion.html", current_discussion=discussion, ids=[id1,id2], messages=messages, error=error, error_msg=error_msg, is_admin=is_admin)
+    return render_template("discussion.html", current_discussion=discussion, ids=[id1,id2],
+                            messages=messages, error=error, error_msg=error_msg, is_admin=is_admin)
 
 
 #Alueiden, keskusteluiden ja viestien luonti
@@ -271,37 +270,36 @@ def new_area_confirm():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
     is_admin = False
-    if session["username"] != None:
+    if session["username"] is not None:
         is_admin = readdb.is_admin(session["username"])
     if is_admin:
         writedb.add_area(request.form["title"])
         return redirect("/")
-    else:
-        abort(403)
+    abort(403)
 
 @app.route("/area/<int:id>/newdiscussion")
-def new_discussion(id, error=False, error_msg=""):
-    return render_template("newdiscussion.html",area=id, error=error, error_msg=error_msg)
+def new_discussion(id1, error=False, error_msg=""):
+    return render_template("newdiscussion.html",area=id1, error=error, error_msg=error_msg)
 
 @app.route("/area/<int:id>/creatediscussion", methods=["POST"])
-def create_discussion(id):
+def create_discussion(id1):
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
     title = request.form["title"]
     message = request.form["body"]
-    if title == None or message == None or title == "" or message == "":
-        return new_discussion(id=id, error=True, error_msg="Otsikko tai viestikenttä tyhjä")
-    area_name = readdb.get_area_by_id(id).names
+    if not title or not message:
+        return new_discussion(id=id1, error=True, error_msg="Otsikko tai viestikenttä tyhjä")
+    area_name = readdb.get_area_by_id(id1).names
     writedb.add_discussion(title, area_name, session["username"])
     writedb.add_message(session["username"], message, title)
-    return redirect("/area/"+str(id))
+    return redirect("/area/"+str(id1))
 
 @app.route("/area/<int:id1>/discussion/<int:id2>/newmessage", methods=["POST"])
 def new_message(id1, id2):
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
     message = request.form["bodyfield"]
-    if message == None:
+    if message is None:
         return discussion(id1=id1, id2=id2, error=True, error_msg="Viestikenttä on tyhjä")
     discussion_name = readdb.get_discussion_by_id(id2).names
     writedb.add_message(session["username"], message, discussion_name)
@@ -313,12 +311,12 @@ def new_message(id1, id2):
 
 
 @app.route("/area/<int:id>/delete", methods=["POST"])
-def area_delete(id):
+def area_delete(id1):
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
     if not readdb.is_admin(session["username"]):
         abort(403)
-    writedb.delete_area(id)
+    writedb.delete_area(id1)
     return redirect("/")
 
 @app.route("/area/<int:id1>/discussion/<int:id2>/delete", methods=["POST"])
@@ -328,9 +326,8 @@ def discussion_delete(id1, id2):
     if readdb.get_discussion_by_id(id2).starter == session["username"] or readdb.is_admin(session["username"]):
         writedb.delete_discussion(id2)
         return redirect("/area/"+str(id1))
-    else:
-        abort(403)
-     
+    abort(403)
+
 @app.route("/area/<int:id1>/discussion/<int:id2>/msg-delete/<int:id3>", methods=["POST"])
 def msg_delete(id1, id2, id3):
     if session["csrf_token"] != request.form["csrf_token"]:
@@ -338,5 +335,4 @@ def msg_delete(id1, id2, id3):
     if readdb.get_message_by_id(id3).writer == session["username"] or readdb.is_admin(session["username"]):
         writedb.delete_message(id3)
         return redirect("/area/"+str(id1)+"/discussion/"+str(id2))
-    else:
-        abort(403)
+    abort(403)
