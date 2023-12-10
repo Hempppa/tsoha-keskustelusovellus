@@ -41,6 +41,7 @@ Schema.sql myös luo kaksi käyttäjää jo valmiiksi testaamista varten, "user"
 ### Suuret puuttuvuudet
 - Ulkoasu, sivu näyttää aika huonolta vielä
 - Kattavampi testaus, kaiken **pitäisi** toimia, mutta silti
+- Tietokantaa ei käsitellä tarpeeksi monipuolisesti (JOIN, REFERENCES, DISTINCT ja ns. Aggregate Functions: AVG(), COUNT(), MIN(), MAX(), SUM()) SQL-komennoilla.
 ### Mahdollisia lisäyksiä (ei todennäköisesti enään projektin aikana kerkeä)
 - Monia mukavuuksia, mm.
     - viestien muokkaaminen, uuden kirkoittamisen sijaan
