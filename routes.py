@@ -8,15 +8,17 @@ from app import app, owner
 #Käyttäjän luonti ja kirjautuminen
 #User creation and login
 
-
+#obselete
 @app.route("/account")
 def account(error=False, error_msg=""):
     return render_template("account.html", error=error, error_msg=error_msg)
 
+#obselete
 @app.route("/newaccount")
 def new_account(error=False, error_msg=""):
     return render_template("newaccount.html", error=error, error_msg=error_msg)
 
+#obselete
 @app.route("/create", methods=["POST"])
 def create():
     name = request.form["accname"]
@@ -34,13 +36,27 @@ def create():
 
 @app.route("/login", methods=["POST"])
 def login():
-    name = request.form["accname"]
-    password = request.form["passwrd"]
-    if readdb.confirm_user_pass(name, password):
-        session["username"] = name
-        session["csrf_token"] = secrets.token_hex(16)
-        return redirect("/")
-    return account(True, "Väärä nimi tai salasana")
+    if request.form["submit"] == "Kirjaudu":
+        name = request.form["accname"]
+        password = request.form["passwrd"]
+        if readdb.confirm_user_pass(name, password):
+            session["username"] = name
+            session["csrf_token"] = secrets.token_hex(16)
+            return redirect(request.form["current_url"])
+        return index(error=True, error_msg="Nimi tai salasana väärin")
+    else:
+        name = request.form["accname"]
+        password = request.form["passwrd"]
+        if not password or not name:
+            return index(True, "Nimi tai salasanakenttä tyhjä")
+        #Tähän sitten salasanan laatutarkastus
+        #elif (len(password) < 8) or (name in password):
+        #
+        if writedb.add_user(name, password):
+            session["username"] = name
+            session["csrf_token"] = secrets.token_hex(16)
+            return redirect(request.form["current_url"])
+        return index(error=True, error_msg="Käyttäjänimi varattu")
 
 
 #Uloskirjautuminen ja käyttäjän poistaminen
@@ -223,14 +239,14 @@ def dm_search():
 
 
 @app.route("/")
-def index():
+def index(error=False, error_msg=""):
     try:
         if session["username"]:
             is_admin = readdb.is_admin(session["username"])
     except:
         is_admin = False
     areas = readdb.get_areas()
-    return render_template("index.html", areas=areas, is_admin=is_admin)
+    return render_template("index.html", areas=areas, is_admin=is_admin, error=error, error_msg=error_msg)
 
 @app.route("/area/<int:id>")
 def area(id1):

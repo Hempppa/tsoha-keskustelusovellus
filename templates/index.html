@@ -19,23 +19,4 @@
 {% endblock %}
 
 {% block content %}
-<ul>
-{%for area in areas%}
-<section>
-<p style="border:2px solid gray;" width="100" margin="20px">
-    <br>
-    <b>{{area.names}}</b><br>
-    <br>
-    <button onclick="document.location='/area/{{area.id}}'">Liity alueelle</button>
-    {% if is_admin %}
-        <form action="/area/{{area.id}}/delete" method="POST">
-            <input type="submit" value="Poista alue">
-            <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-        </form>
-    {% endif %}
-    <br>
-</p>
-</section>
-{%endfor%}
-</ul>
 {% endblock %}

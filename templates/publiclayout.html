@@ -1,25 +1,72 @@
-<!DOCTYPE html>
-<title>Generaali foorumi nro 428</title>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!DOCTYPE html>
+    <title>Generaali foorumi nro 428</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/main.css" type="text/css"/>
 </head>
 
-<a href="/">Kotisivulle</a><br>
+<body>
+    <div id="title_block">
+        <div id="title">
+            {% block title %}{% endblock %}
+            <br><a href="/">Kotisivulle</a><br>
+        </div>
 
-{% block title %}{% endblock %}
+        <div id="error">
+            {% if error %}
+            <h2 style="color:red">{{error_msg}}</h2>
+            {% endif %}
+        </div>
 
-{% if session.username %}
-    <div>Terve {{session.username}}!</div>
-    <div><a href="/personal">Käyttäjä</a></div>
-    <p><a href="/logout">Kirjaudu ulos</a></p>
-{% else %}
-    <p><a href="/account">Kirjaudu</a></p>
-{% endif %}
+        <div id="user">
+            {% if session.username %}
+                <div id="user_account">
+                    <span style="font-size: 1.3em;">Terve {{session.username}}!</span><br>
+                    <a class="button" href="/personal">Käyttäjä</a><br>
+                    <a class="button" href="/logout">Kirjaudu ulos</a>
+                </div>
+            {% else %}
+                <form action="/login" method="POST" id="user_login">
+                    <label for="name">Käyttäjänimi:</label>
+                    <input type="text" id="name" name="accname" value="">
+                    <label for="pass">Salasana:</label>
+                    <input type="password" id="pass" name="passwrd" value="">
+                    <br><br>
+                    <input type="submit" name="submit" value="Kirjaudu">
+                    <input type="submit" name="submit" value="Tee uusi käyttäjä">
+                    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+                    <input type="hidden" name="current_url" value="">
+                </form>
+                <script>document.getElementById("current_url").value = window.location.pathname;</script>
+            {% endif %}
+        </div>
+    </div>
 
-{% block search %}{% endblock %}
+    {% block search %}{% endblock %}
 
-<hr>
+    <hr>
 
-{% block new %}{% endblock %}
+    <div id="sidebar">
+        <ul>
+            {%for area in areas%}
+                <p>
+                    <br>
+                    <b><a href="/area/{{area.id}}" class="button">{{area.names}}</a></b>
+                    <br>
+                    {% if is_admin %}
+                        <form action="/area/{{area.id}}/delete" method="POST">
+                            <input type="submit" value="Poista alue">
+                            <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+                        </form>
+                    {% endif %}
+                    <br>
+                </p>
+            {%endfor%}
+        </ul>
+    </div>
 
-{% block content %}{% endblock %}
+    {% block new %}{% endblock %}
+
+    {% block content %}{% endblock %}
+
+</body>
