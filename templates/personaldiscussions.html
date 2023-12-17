@@ -9,14 +9,13 @@
 {% block new %}{% endblock %}
 
 {% block content %}
-{%for discussion in discussions%}
-<section>
-<p style="border:2px solid gray;" width="100" margin="20px">
-<br>
-<b>{{discussion.names}}</b><br>
-<br>
-<button onclick="document.location='/get-to/discussion/{{discussion.id}}'">Keskusteluun</button>
-<br>
-</p></section>
-{%endfor%}
+    <div class="personal_stuff">
+        {%for discussion in discussions%}
+            <p style="border:2px solid gray;" width="100" margin="20px">
+                <b>{{discussion.names}}</b><br>
+                <br>
+                <button onclick="document.location='/get-to/discussion/{{discussion.id}}'">Keskusteluun</button>
+            </p>
+        {%endfor%}
+    </div>
 {% endblock %}

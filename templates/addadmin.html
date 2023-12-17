@@ -3,19 +3,18 @@
 {% block title %}
 <h1>Kirjaudu</h1>
 <b><a href="/">Takaisin</a></b>
-{% if error %}
-  <h2 style="color:red">{{error_msg}}</h2>
-{% endif %}
 {% endblock %}
 
 {% block search %}{% endblock %}
 {% block new %}{% endblock %}
 
 {% block content %}
-<form action="/addadmin/confirm" method="POST">
-    <label for="name">Käyttäjänimi:</label><br>
-    <input type="text" id="name" name="accname" value=""><br>
-    <input type="submit" name="submit" value="Lisää admin"><input type="submit" name="submit" value="Poista admin">
-    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-</form>
+  <div class="personal_stuff">
+    <form action="/addadmin/confirm" method="POST">
+        <label for="name">Käyttäjänimi:</label><br>
+        <input type="text" id="name" name="accname" value=""><br>
+        <input type="submit" name="submit" value="Lisää admin"><input type="submit" name="submit" value="Poista admin">
+        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+    </form>
+  </div>
 {% endblock %}

@@ -26,7 +26,7 @@ def get_discussions_by_area(name):
     return result.fetchall()
 
 def get_discussion_by_id(id):
-    result = db.session.execute(text("SELECT id, names, area, created_at FROM discussions WHERE id=:id AND deleted=FALSE"), {"id": id})
+    result = db.session.execute(text("SELECT id, names, area, starter, created_at FROM discussions WHERE id=:id AND deleted=FALSE"), {"id": id})
     return result.fetchone()
 
 def get_discussion_by_writer(name):
@@ -74,11 +74,11 @@ def get_messages_from_discussion(name):
     return messages
 
 def get_message_by_id(id):
-    result = db.session.execute(text("SELECT id, writer, discussion, content, created_at from messages WHERE id=:id AND deleted=FALSE"), {"id":id})
+    result = db.session.execute(text("SELECT id, writer, discussion, content, created_at FROM messages WHERE id=:id AND deleted=FALSE"), {"id":id})
     return result.fetchone()
 
 def get_friends_by_user(name):
-    result = db.session.execute(text("SELECT F1.user2 FROM friendlist F1,friendlist F2 WHERE F1.user1=:name AND F1.user1=F2.user2 AND F1.user2=F2.user1 AND F2.deleted=FALSE AND F1.deleted=FALSE"), {"name":name})
+    result = db.session.execute(text("SELECT F1.user2 FROM friendlist F1 JOIN friendlist F2 ON F1.user1=F2.user2 WHERE F1.user1=:name AND F1.user2=F2.user1 AND F2.deleted=FALSE AND F1.deleted=FALSE"), {"name":name})
     return result.fetchall()
 
 def get_friend_requests(name):
@@ -92,7 +92,7 @@ def get_friend_requests(name):
     return requests
 
 def check_friend(user1, user2):
-    result = db.session.execute(text("SELECT * FROM friendlist F1, friendlist F2 WHERE F1.user1=:user1 AND F1.user1=F2.user2 AND F1.user2=:user2 AND F1.user2=F2.user1 AND F1.deleted=FALSE AND F2.deleted=FALSE"), {"user1":user1, "user2":user2})
+    result = db.session.execute(text("SELECT * FROM friendlist F1 JOIN friendlist F2 ON F1.user1=F2.user2 WHERE F1.user1=:user1  AND F1.user2=:user2 AND F1.user2=F2.user1 AND F1.deleted=FALSE AND F2.deleted=FALSE"), {"user1":user1, "user2":user2})
     if result.fetchone() == None:
         return False
     return True
@@ -110,7 +110,10 @@ def get_directmessage_by_id(id):
     return result.fetchone()
 
 def is_admin(name):
-    result = db.session.execute(text("SELECT admins FROM users WHERE names=:name AND deleted=FALSE"), {"name":name})
+    try:
+        result = db.session.execute(text("SELECT admins FROM users WHERE names=:name AND deleted=FALSE"), {"name":name})
+    except:
+        pass
     is_admin = result.fetchone()
     if is_admin == None:
         return False

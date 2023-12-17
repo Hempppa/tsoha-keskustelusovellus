@@ -8,13 +8,15 @@
 {% block new %}{% endblock %}
 
 {% block content %}
-<table>
-    <a href="/started">Omat keskustelut</a><br>
-    <a href="/friendlist">Kaverilista</a><br>
-    <a href="/changepass">Vaihda salasana</a><br>
-    <a href="/rmvuser">Poista käyttäjä</a><br>
-    {% if session.username == owner %}
-    <a href="/addadmin">Muokkaa admin oikeuksia</a><br>
-    {% endif %}
-</table>
+    <div class="personal_stuff">
+        <table class="personal_stuff">
+            <a href="/started">Omat keskustelut</a><br>
+            <a href="/friendlist">Kaverilista</a><br>
+            <a href="/changepass">Vaihda salasana</a><br>
+            <a href="/rmvuser">Poista käyttäjä</a><br>
+            {% if session.username == owner %}
+            <a href="/addadmin">Muokkaa admin oikeuksia</a><br>
+            {% endif %}
+        </table>
+    </div>
 {% endblock %}

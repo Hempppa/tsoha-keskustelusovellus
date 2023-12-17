@@ -1,4 +1,4 @@
-<html style="background-color: azure;">
+<html style="background-color: whitesmoke;">
     <head>
         <!DOCTYPE html>
         <title>Generaali foorumi nro 428</title>
@@ -7,58 +7,18 @@
     </head>
 
     <body>
-        <div id="title_block">
-            <div id="title">
-                <span id="title_text">{% block title %}{% endblock %}</span>
-                <br><a href="/" class="button">Kotisivulle</a><br>
-            </div>
-
-            <div id="user">
-                <div id="error">
-                    {% if error %}
-                    <h2 style="color:red">{{error_msg}}</h2>
-                    {% endif %}
-                </div>
-                <div id="login_block">
-                    {% if session.username %}
-                        <div id="user_account">
-                            <span style="font-size: 1.3em;">Terve {{session.username}}!</span><br>
-                            <a class="button" href="/personal">Käyttäjä</a><br>
-                            <a class="button" href="/logout">Kirjaudu ulos</a>
-                        </div>
-                    {% else %}
-                        <form action="/login" method="POST" id="user_login">
-                            <label for="name">Käyttäjänimi:</label>
-                            <input type="text" id="name" name="accname" value="">
-                            <label for="pass">Salasana:</label>
-                            <input type="password" id="pass" name="passwrd" value="">
-                            <input type="submit" name="submit" id="login" value="Kirjaudu">
-                            <input type="submit" name="submit" id="make" value="Tee uusi käyttäjä">
-                            <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-                            <input type="hidden" name="current_url" value="">
-                        </form>
-                        <script>document.getElementsByName("current_url").value = window.location.pathname;</script>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
-        <div id="search_block">
-            <hr>
-            {% block search %}{% endblock %}
-            <hr>
-        </div>
-
         <div id="sidebar">
             <div id="newarea">
                 Keskustelualueet:
                 {% if is_admin %}
-                    <a href="/newarea" class="button">Avaa uusi keskustelualue</a>
+                    <a href="/newarea" class="side_button">Avaa uusi keskustelualue</a>
                 {% endif %}
+                <hr>
             </div>
             <ul>
                 {%for area in areas%}
-                    <a href="/area/{{area.id}}" class="button">{{area.names}}</a>
+                    <a href="/area/{{area.id}}" class="side_button">{{area.names}}</a>
+
                     {% if is_admin %}
                         <form action="/area/{{area.id}}/delete" method="POST">
                             <input type="submit" value="Poista alue">
@@ -68,10 +28,53 @@
                 {%endfor%}
             </ul>
         </div>
+        
+        <div id="center">
+            <div id="title_block">
+                <div id="title">
+                    <a href="/" class="button" id="home_button">Kotisivulle</a>
+                    <span id="title_text">{% block title %}{% endblock %}</span>
+                </div>
 
-        {% block new %}{% endblock %}
+                <div id="user">
+                    <div id="login_block">
+                            {% if session.username %}
+                                <a href="/personal" class="button">Käyttäjä</a>
+                                <a href="/logout" class="button">Kirjaudu ulos</a>
+                                <br>
+                            {% endif %}
+                            <form action="/login" method="POST" id="user_login">
+                                <label for="name">Käyttäjänimi:</label>
+                                <input type="text" id="name" name="accname" value="">
+                                <label for="pass">Salasana:</label>
+                                <input type="password" id="pass" name="passwrd" value="">
+                                <br>
+                                <input type="submit" name="submit" id="login" class="submit_button" value="Kirjaudu">
+                                <input type="submit" name="submit" id="make" class="submit_button" value="Tee uusi käyttäjä">
+                                <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+                                <input type="hidden" name="current_url" id="current_url" value="">
+                            </form>
+                            <script>document.getElementById("current_url").value = window.location.pathname;</script>
+                    </div>
+                    <div id="error">
+                        {% if error %}
+                        <h2 style="color:red">{{error_msg}}</h2>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
-        {% block content %}{% endblock %}
+            <div id="search_block">
+                {% block search %}{% endblock %}
+            </div>
 
+            <div id="user_action">
+                <div id="new_block">
+                    {% block new %}{% endblock %}
+                </div>
+                <div id="content_block">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
     </body>
 </html>

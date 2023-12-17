@@ -11,14 +11,16 @@
 {% block new %}{% endblock %}
 
 {% block content %}
-<h2>Vahvista käyttäjätiedot poistaaksesi käyttäjän</h2>
-<form action="/rmvuser/confirm" method="POST">
-    <label for="name">Käyttäjänimi:</label><br>
-    <input type="text" id="name" name="accname" value=""><br>
-    <label for="pass">Salasana:</label><br>
-    <input type="password" id="pass" name="passwrd" value=""><br><br>
-    <input type="submit" value="Kirjaudu">
-    <br>
-    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-</form>
+  <div class="personal_stuff">
+    <h2>Vahvista käyttäjätiedot poistaaksesi käyttäjän</h2>
+    <form action="/rmvuser/confirm" method="POST">
+        <label for="name">Käyttäjänimi:</label><br>
+        <input type="text" id="name" name="accname" value=""><br>
+        <label for="pass">Salasana:</label><br>
+        <input type="password" id="pass" name="passwrd" value=""><br><br>
+        <input type="submit" value="Kirjaudu">
+        <br>
+        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+    </form>
+  </div>
 {% endblock %}

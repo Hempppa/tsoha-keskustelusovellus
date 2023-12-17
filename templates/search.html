@@ -1,26 +1,25 @@
 {% extends "publiclayout.html" %}
 
 {% block title %}
-{% if id1 %}
-    <b><a href="/area/{{id1}}">Takaisin</a></b>
-{% else %}
-    <b><a href="/">Takaisin</a></b>
-{% endif %}
-<h1>Keskustelut haulla "{{query}}":</h1>
+    {% if id1 %}
+        <b><a href="/area/{{id1}}">Takaisin</a></b>
+    {% else %}
+        <b><a href="/">Takaisin</a></b>
+    {% endif %}
+    <h1>Keskustelut haulla "{{query}}":</h1>
 {% endblock %}
 
 {% block search %}{% endblock %}
 {% block new %}{% endblock %}
 
 {% block content %}
-{%for discussion in discussions%}
-<section>
-<p style="border:2px solid gray;" width="100" margin="20px">
-<br>
-<b>{{discussion.names}}</b><br>
-<br>
-<button onclick="document.location='/get-to/discussion/{{discussion.id}}'">Keskusteluun</button>
-<br>
-</p></section>
-{%endfor%}
+    {%for discussion in discussions%}
+        <p style="border:2px solid gray;" width="100" margin="20px">
+            <br>
+            <b>{{discussion.names}}</b><br>
+            <br>
+            <button onclick="document.location='/get-to/discussion/{{discussion.id}}'">Keskusteluun</button>
+            <br>
+        </p>
+    {%endfor%}
 {% endblock %}

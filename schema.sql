@@ -12,15 +12,15 @@ CREATE TABLE areas (
 CREATE TABLE discussions (
     id SERIAL PRIMARY KEY,
     names TEXT UNIQUE,
-    area TEXT,
-    starter TEXT,
+    area TEXT REFERENCES areas (names),
+    starter TEXT REFERENCES users (names),
     created_at TIMESTAMP,
     deleted BOOLEAN
 );
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
-    writer TEXT,
-    discussion TEXT,
+    writer TEXT REFERENCES users (names),
+    discussion TEXT REFERENCES discussions (names),
     content TEXT,
     created_at TIMESTAMP,
     deleted BOOLEAN
@@ -34,15 +34,15 @@ CREATE TABLE users (
 );
 CREATE TABLE friendlist (
     id SERIAL PRIMARY KEY,
-    user1 TEXT,
-    user2 TEXT,
+    user1 TEXT REFERENCES users (names),
+    user2 TEXT REFERENCES users (names),
     UNIQUE (user1, user2),
     deleted BOOLEAN
 );
 CREATE TABLE directmessages (
     id SERIAL PRIMARY KEY,
-    user1 TEXT,
-    user2 TEXT,
+    user1 TEXT REFERENCES users (names),
+    user2 TEXT REFERENCES users (names),
     content TEXT,
     created_at TIMESTAMP,
     deleted BOOLEAN

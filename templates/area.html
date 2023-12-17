@@ -1,10 +1,9 @@
 {% extends "publiclayout.html" %}
 
 {% block title %}
-<span>/area{{area.id}}</span>
-<br>
-<b><a href="/">Takaisin</a></b>
-<h1>{{area.names}}:</h1>
+    <br>
+    /area{{area.id}}
+    <h1>{{area.names}}:</h1>
 {% endblock %}
 
 {% block search %}
@@ -16,28 +15,25 @@
 {% endblock %}
 
 {% block new %}
-{% if session.username %}
-    <a href="/area/{{area.id}}/newdiscussion">Aloita uusi keskustelu</a>
-{% endif %}
+    {% if session.username %}
+        <a href="/area/{{area.id}}/newdiscussion" class="button">Aloita uusi keskustelu</a>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-<ul>
-{%for discussion in area_discussions%}
-<section>
-<p style="border:2px solid gray;" width="100" margin="20px">
-<br>
-<b>{{discussion.names}}</b><br>
-<br>
-<button onclick="document.location='/area/{{area.id}}/discussion/{{discussion.id}}'">Keskusteluun</button>
-{% if session.username == discussion.starter or is_admin %}
-    <form action="/area/{{ids[0]}}/discussion/{{discussion.id}}/delete" method="POST">
-        <input type="submit" value="Poista keskustelu">
-        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-    </form>
-{% endif %}
-<br>
-</p></section>
-{%endfor%}
-</ul>
+    <ul>
+        {%for discussion in area_discussions%}
+            <p style="border:2px solid gray;" width="100" margin="20px">
+                <b>{{discussion.names}}</b>
+                <br>
+                <button onclick="document.location='/area/{{area.id}}/discussion/{{discussion.id}}'">Keskusteluun</button>
+                {% if session.username == discussion.starter or is_admin %}
+                    <form action="/area/{{ids[0]}}/discussion/{{discussion.id}}/delete" method="POST">
+                        <input type="submit" value="Poista keskustelu">
+                        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+                    </form>
+                {% endif %}
+            </p>
+        {%endfor%}
+    </ul>
 {% endblock %}

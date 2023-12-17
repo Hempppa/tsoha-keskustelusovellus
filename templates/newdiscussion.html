@@ -1,24 +1,23 @@
 {% extends "publiclayout.html" %}
 
 {% block title %}
-<h1>Uusi Keskustelu</h1>
-<a href="/area/{{area}}">Takaisin</a>
-{% if error %}
-  <h2 style="color:red">{{error_msg}}</h2>
-{% endif %}
+  <h1>Uusi Keskustelu</h1>
 {% endblock %}
 
 {% block search %}{% endblock %}
-{% block new %}{% endblock %}
 
-{% block content %}
-<form action="/area/{{area}}/creatediscussion" method="POST">
-    <label for="name">Otsikko:</label><br>
-    <input type="text" id="name" name="title" value=""><br>
-    <label for="body">Ensimmäinen viesti:</label><br>
-    <input type="text" id="body" name="body" value="" width="200px" height="200px"><br><br>
-    <input type="submit" value="Julkaise">
-    <br>
-    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-</form>
+{% block new %}
+  <div>
+    <form action="/area/{{area}}/creatediscussion" method="POST">
+        <label for="name">Otsikko:</label><br>
+        <input type="text" id="name" name="title" value=""><br>
+        <label for="body">Ensimmäinen viesti:</label><br>
+        <input type="textarea" id="body" name="body" value="" rows="10" cols="50">
+        <br>
+        <input type="submit" value="Julkaise">
+        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+    </form>
+  </div>
 {% endblock %}
+
+{% block content %}{% endblock %}

@@ -2,23 +2,22 @@
 
 {% block title %}
 <h1>Uusi Käyttäjä</h1>
-{% if error %}
-  <h2 style="color:red">{{error_msg}}</h2>
-{% endif %}
 {% endblock %}
 
 {% block search %}{% endblock %}
 {% block new %}{% endblock %}
 
 {% block content %}
-<form action="/create" method="POST">
-    <label for="name">Käyttäjänimi:</label><br>
-    <input type="text" id="name" name="accname" value=""><br>
-    <label for="pass">Salasana:</label><br>
-    <input type="password" id="pass" name="passwrd" value=""><br><br>
-    <input type="submit" value="Tee käyttäjä">
-    <br>
-    <a href="/account">Takaisin</a>
-    <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
-</form>
+  <div class="personal_stuff">
+    <form action="/create" method="POST">
+        <label for="name">Käyttäjänimi:</label><br>
+        <input type="text" id="name" name="accname" value=""><br>
+        <label for="pass">Salasana:</label><br>
+        <input type="password" id="pass" name="passwrd" value=""><br><br>
+        <input type="submit" value="Tee käyttäjä">
+        <br>
+        <a href="/account">Takaisin</a>
+        <input type="hidden" name="csrf_token" value="{{session.csrf_token}}">
+    </form>
+  </div>
 {% endblock %}

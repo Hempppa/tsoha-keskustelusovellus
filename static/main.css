@@ -1,48 +1,57 @@
 #title_block{
-    margin-left: 15em;
     padding: 0.5em;
     display: grid;
-    grid-template-columns: 40em 15em 300em;
+    grid-template-columns: 60em auto;
 }
 
 #search_block{
-    margin-left: 15em;
-    padding: 0.5em;
+    margin: 0.5em;
+    padding: 0 0.5em 0.5em 0.5em;
+    border-color: #eeeeee;
+    border-style: solid;
+    background-color: #e0e0e0;
 }
 
-#title{
-    max-width: 30em;
+#home_button{
+    padding: 0.5em;
+    padding-left: 5em;
+    font-size: 1.5em;
+    background-color: #666666;
+    max-width: 20em;
+}
+#home_button:hover{
+    background-color: #bbbbbb;
 }
 
 #error{
-    max-width: 15em;
+    max-width: 25em;
 }
 
 #user{
+    border-color: #fedcba;
+    background-color: #fff3cc;
     position: fixed;
     right: 0;
     top: 0;
     float: right;
     padding: 2em;
-    display: grid;
-    grid-template-columns: 15em 30em;
 }
 
 #user_login{
     display: grid;
-    grid-template-columns: 10em 15em;
+    grid-template-columns: 7.5em 15em;
 }
 
 #login {
-    grid-column-start: 2;
-    width: 7.5em;
-    margin-left: 4em;
+    grid-column-start: 1;
+    width: 10em;
+    margin-left: 2em;
 }
 
 #make {
     grid-column-start: 2;
-    width: 7.5em;
-    margin-left: 4em;
+    width: 10em;
+    margin-left: 7em;
 }
 
 #sidebar{
@@ -53,7 +62,8 @@
     bottom: 0;
     overflow-x: hidden;
     display: block;
-    background-color: gray;
+    background-color: #666666;
+    color: white;
 }
 
 #newarea {
@@ -63,27 +73,80 @@
 }
 
 #title_text {
-    font-size: 2.5em;
+    font-size: 2em;
     font-family: "Georgia", serif;
+}
+
+#center{
+    display:block;
+    grid-column-start: 2;
+}
+
+#user_action{
+    display: auto;
+    background-color: white;
+    border-color: #dddddd;
+    border-style: solid;
+}
+
+#search_button{
+    border-color: black;
+}
+
+#content_block{
+    margin: 2em;
+}
+
+#new_block{
+    padding-left: 2em;
 }
 
 .button {
     display: block;
-    background-color: lightgray;
-    margin: 0.3em;
+    background-color: #666666;
+    padding: 0.3em;
     text-decoration: none;
-    color: black;
+    color:white;
 }
 
 .button:hover{
-    background-color: white;
+    background-color: #bbbbbb;
+}
+
+.side_button {
+    display: block;
+    background-color: #444444;
+    padding: 0.3em;
+    text-decoration: none;
+    color:white;
+}
+
+.side_button:hover{
+    background-color: #bbbbbb;
+}
+
+.submit_button{
+    border-color: #dcbaaa;
+    background-color: #edcbaa;
+    width: 15em;
+}
+
+.submit_button {
+    border-color: white;
+    background-color: #fedcba;
 }
 
 ul {
     display: List-item;
     padding: 0;
+    list-style-type: none;
 }
 
 div {
     display: block;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 15em auto;
 }

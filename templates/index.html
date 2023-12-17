@@ -1,7 +1,7 @@
 {% extends "publiclayout.html" %}
 
 {% block title %}
-<h1>Keskustelualueet:</h1>
+<h1>Kotisivu:</h1>
 {% endblock %} 
 
 {% block search %}
@@ -12,11 +12,10 @@
 </form>
 {% endblock %}
 
-{% block new %}
-{% if is_admin %}
-    <a href="/newarea">Avaa uusi keskustelualue</a>
-{% endif %}
-{% endblock %}
+{% block new %}{% endblock %}
 
 {% block content %}
+Tämä on keskustelusovellus. Vasemmalta laidasta löytyy ylläpitäjien hallitsemia keskustelualueita, missä kaikki käyttäjät voivat aloittaa uusia 
+keskusteluketjuja ja lisätä niihin viestejä, mikä vaatii kyllä kirjautumista/käyttäjän luomista vasemmasta yläkulmasta. Kirjautumalla sisään voit myös 
+käyttäjäkohtaisilta sivuilta lisätä muita käyttäjiä kaveriksi ja lähettää ainoastaan heille kuuluvia viestejä.
 {% endblock %}
