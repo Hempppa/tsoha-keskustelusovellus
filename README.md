@@ -23,7 +23,7 @@ Sovelluksen voi nyt käynnistää
 
     flask run
 
-Schema.sql myös luo kaksi käyttäjää jo valmiiksi testaamista varten, "user" ja "admin", molemmilla salasanana "1234".
+Schema.sql myös luo yhden keskustelualueen ja kaksi käyttäjää jo valmiiksi testaamista varten, "user" ja "admin", molemmilla salasanana "1234".
 
 ### Sovelluksen ominaisuudet (Tällä hetkellä)
 - Käyttäjä näkee alkusivulla keskustelualueet 
