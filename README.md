@@ -39,9 +39,9 @@ Schema.sql myös luo kaksi käyttäjää jo valmiiksi testaamista varten, "user"
 - Ylläpitäjä voi lisätä keskustelualueita ja poistaa alueita, ketjuja ja viestejä
 - Omistaja voi määrätä käyttäjien adminoikeuksia.
 ### Suuret puuttuvuudet
-- Ulkoasu, sivu näyttää aika huonolta vielä
-- Kattavampi testaus, kaiken **pitäisi** toimia, mutta silti
-- Tietokantaa ei käsitellä tarpeeksi monipuolisesti (JOIN, REFERENCES, DISTINCT ja ns. Aggregate Functions: AVG(), COUNT(), MIN(), MAX(), SUM()) SQL-komennoilla.
+- Ulkoasu, sivu näyttää silti vähän kehnolta kohdin
+- Kattavampi testaus, kaiken **pitäisi** toimia, mutta silti en ole testannut ihan jokaista ääritapausta
+- En kerennyt implementoida palautteessa mainittuja aggregate funktioita tietokannan käsittelyyn
 ### Mahdollisia lisäyksiä (ei todennäköisesti enään projektin aikana kerkeä)
 - Monia mukavuuksia, mm.
     - viestien muokkaaminen, uuden kirkoittamisen sijaan
